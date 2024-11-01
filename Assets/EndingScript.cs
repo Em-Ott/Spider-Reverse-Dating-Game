@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class EndingScript : MonoBehaviour
 {
     public TextMeshProUGUI endingText;
+    public GameObject endingScreen;
+    public float textSpeed;
+    private int index;
+
     // Start is called before the first frame update
     void Start()
     {

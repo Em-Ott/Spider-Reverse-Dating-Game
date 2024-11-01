@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BeginningScript : MonoBehaviour
 {
     public TextMeshProUGUI beginningText;
+    public GameObject beginningScreen;
     public KeyCode interactKey = KeyCode.E;
     // Start is called before the first frame update
     private string[] onboarding = new string[]
@@ -76,8 +77,7 @@ public class BeginningScript : MonoBehaviour
             StartCoroutine(TypeLine());
         } else 
         {
-            Debug.Log("Should disappear");
-            gameObject.SetActive(false);
+            beginningScreen.SetActive(false);
         }
     }
 }
