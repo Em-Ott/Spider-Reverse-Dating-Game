@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class RodentText : MonoBehaviour
 {
-     public KeyCode interactKey = KeyCode.E;
+    public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
     private bool inRange;
     private string[] initialDialogue = new string[]
     {
@@ -39,6 +42,9 @@ public class RodentText : MonoBehaviour
        private bool first = true;
         private int index = 0;
         public float textSpeed = 0.05f;
+        private bool unread = true;
+        private int inProgress = 0;
+        private bool[] playerChoicesChosen = new bool[] {false, false, false, false, false};
 
 
     // Start is called before the first frame update
@@ -60,15 +66,75 @@ public class RodentText : MonoBehaviour
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Rodent"; 
                 }
-                if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
+                if ((DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index]))
                 {
-                    NextLine();
+                    if (((index + 1) == 1) || ((index+1) == 2) && (unread == true))
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                    } else if (((index + 1) == 5) && playerChoicesChosen[4] == false) 
+                    {
+                        index = 0;
+                        unread = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        first = true;
+                    } else if (((index + 1) == 5) && playerChoicesChosen[1] == true)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[2] +
+                        "\n" + playerChoices[4];
+                        inProgress = 2;
+                    }
+                    else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
-                //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else if (inProgress == 1){
+                 if(Input.GetKeyDown(oneKey))
+                        {
+                            index = 1;
+                            unread = false;
+                            inProgress = 0;
+                            NextLine();
+                            playerChoicesChosen[0] = true;
+                        } else if (Input.GetKeyDown(twoKey))
+                        {
+                            index = 1;
+                            unread = false;
+                            inProgress = 0;
+                            NextLine();
+                            playerChoicesChosen[1] = true;
+                        } else if (Input.GetKeyDown(threeKey))
+                        {
+                            index = 0;
+                            unread = true;
+                            DialogueManager.Instance.image.SetActive(false);
+                            DialogueManager.Instance.characterImage.SetActive(false); 
+                            inProgress = 0;
+                            first = true;
+                        }
+            } else if (inProgress == 2){
+                if (Input.GetKeyDown(oneKey))
+                {
+                    index = 0;
+                    unread = true;
+                    DialogueManager.Instance.image.SetActive(false);
+                    DialogueManager.Instance.characterImage.SetActive(false); 
+                    inProgress = 0;
+                    first = true;
+                } else if (Input.GetKeyDown(twoKey))
+                {
+                    inProgress = 0;
+                    NextLine();
+                    playerChoicesChosen[4] = true;
+                }
             }
         }
     }

@@ -26,7 +26,8 @@ public class BeginningScript : MonoBehaviour
     private bool first = true;
     void Start()
     {
-        beginningText.text = "Controls: WASD or Arrows to move.\nE to interact with characters, and go to next dialogue.";
+        beginningText.text = "Controls: WASD or Arrows to move.\nE to interact with characters, and go to next dialogue."
+        + "\n Use 1, 2, 3, 4, or 5 for the dialogue option you want to choose as a response.";
     }
 
     // Update is called once per frame

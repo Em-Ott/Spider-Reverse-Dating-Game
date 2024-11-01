@@ -389,6 +389,7 @@ MonoBehaviour:
   interactKey: 101
   lunaScript: {fileID: 0}
   sableScript: {fileID: 0}
+  textSpeed: 0.05
 --- !u!61 &39468112
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1622,6 +1623,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
+  textSpeed: 0.05
 --- !u!1 &297047746
 GameObject:
   m_ObjectHideFlags: 0
@@ -4413,6 +4418,7 @@ MonoBehaviour:
   interactKey: 101
   violinHint: 0
   sableScript: {fileID: 0}
+  textSpeed: 0.05
 --- !u!61 &999537776
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4729,6 +4735,7 @@ MonoBehaviour:
   interactKey: 101
   vennaScript: {fileID: 0}
   exisentialismPoints: 0
+  textSpeed: 0.05
 --- !u!61 &1044853215
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6424,6 +6431,7 @@ MonoBehaviour:
   interactKey: 101
   sableScript: {fileID: 0}
   currentString: 
+  textSpeed: 0.05
 --- !u!1 &1521107775
 GameObject:
   m_ObjectHideFlags: 0
@@ -7303,6 +7311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactKey: 101
   sableScript: {fileID: 0}
+  textSpeed: 0.05
 --- !u!1 &1674967837
 GameObject:
   m_ObjectHideFlags: 0
@@ -8621,6 +8630,7 @@ MonoBehaviour:
   interactKey: 101
   vennaScript: {fileID: 2013739818}
   sableScript: {fileID: 0}
+  textSpeed: 0
 --- !u!61 &2143886370
 BoxCollider2D:
   m_ObjectHideFlags: 0
