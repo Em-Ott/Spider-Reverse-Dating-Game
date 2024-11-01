@@ -1,16 +1,16 @@
-using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
-public class Words : MonoBehaviour
+public class CharacterNameText : MonoBehaviour
 {
-    public TextMeshProUGUI exampleText;
+    public TextMeshProUGUI nameText;
     // Start is called before the first frame update
     void Start()
     {
-        exampleText.text = "hello";
+        nameText.text = "pain";
     }
 
     // Update is called once per frame

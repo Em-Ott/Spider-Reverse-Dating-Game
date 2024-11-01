@@ -7,7 +7,8 @@ public class BellatrixScript : MonoBehaviour
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
     public SableScript sableScript;
-    public string[] dialogue = new string[]
+    public string currentString;
+    private string[] dialogue = new string[]
     {
     "In front of you are two spiders, one alive and one dead.",
     "You recognize them, Bellatrix and Scraps.",
