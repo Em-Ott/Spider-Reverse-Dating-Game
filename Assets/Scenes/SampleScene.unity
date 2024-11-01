@@ -2314,6 +2314,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1463624755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &491521240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 491521241}
+  - component: {fileID: 491521242}
+  m_Layer: 5
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &491521241
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491521240}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.008337332, y: 0.008337332, z: 0.008337332}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -328.2351, y: 19.38034}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &491521242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491521240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b320f7b7e6348b645b367b338d0662a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vennaScript: {fileID: 2013739818}
+  sableScript: {fileID: 1044853214}
+  scarletScript: {fileID: 2143886369}
+  bellatrixScript: {fileID: 1495238513}
+  lunaScript: {fileID: 999537775}
+  rodentText: {fileID: 294855685}
+  rubyScript: {fileID: 39468111}
+  rWLScript: {fileID: 1654849691}
+  dialogue: {fileID: 876328472}
+  characterNameText: {fileID: 876328473}
+  endingScript: {fileID: 876328474}
+  image: {fileID: 281812312}
+  characterImage: {fileID: 1405115623}
 --- !u!1 &509863936
 GameObject:
   m_ObjectHideFlags: 0
@@ -8247,6 +8308,7 @@ MonoBehaviour:
   cheeseHint: 0
   sableDialogue: 0
   sableScript: {fileID: 0}
+  textSpeed: 0.05
 --- !u!61 &2013739819
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8608,6 +8670,7 @@ BoxCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 491521241}
   - {fileID: 783253971}
   - {fileID: 247845335}
   - {fileID: 294855682}

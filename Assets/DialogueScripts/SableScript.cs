@@ -9,7 +9,7 @@ public class SableScript : MonoBehaviour
     public VennaScript vennaScript; 
     public int exisentialismPoints = 0;
 
-    private string[] dialogue = new string[]
+    private string[] initialDialogue = new string[]
     {
     "There is a spider, Sable, standing near the edge of the floor.",
     "You’re not sure what’s past it, or even if there is anything past it.",
@@ -61,6 +61,11 @@ public class SableScript : MonoBehaviour
     "“Does it matter? What we do right now is the only thing we can change.”",
     "“Does it matter? This is all just a video game.”"
     };
+    private bool first = true;
+    private int index = 0;
+    public float textSpeed = 0.05f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,10 +83,56 @@ public class SableScript : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
+                if (first == true)
+                {
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Sable"; 
+                }
+                if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
+                {
+                    NextLine();
+                } else 
+                {
+                    StopAllCoroutines();
+                    DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
+                }
+                //DialogueManager.Instance.dialogue.dialogueText.text 
             }
         }
-
     }
+    void StartDialog()
+    {
+        DialogueManager.Instance.image.SetActive(true);
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        //Type each character 1 by 1
+        foreach(char c in initialDialogue[index].ToCharArray())
+        {
+            DialogueManager.Instance.dialogue.dialogueText.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < initialDialogue.Length - 1)
+        {
+            index++;
+            DialogueManager.Instance.dialogue.dialogueText.text = string.Empty;
+            StartCoroutine(TypeLine());
+        } else 
+        {
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false); 
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -95,6 +146,10 @@ public class SableScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
+            first = true;
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false);
+            index = 0;
      }
     }
 }

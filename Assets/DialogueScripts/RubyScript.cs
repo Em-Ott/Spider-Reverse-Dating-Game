@@ -82,6 +82,11 @@ public class RubyScript : MonoBehaviour
     "“Actually, I think I’m meant to be your perfect audience.”",
     "“Please no.”"
     };
+    private bool first = true;
+    private int index = 0;
+    public float textSpeed = 0.05f;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -108,10 +113,56 @@ public class RubyScript : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
+                if (first == true)
+                {
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
+                }
+                if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
+                {
+                    NextLine();
+                } else 
+                {
+                    StopAllCoroutines();
+                    DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
+                }
+                //DialogueManager.Instance.dialogue.dialogueText.text 
             }
         }
-
     }
+    void StartDialog()
+    {
+        DialogueManager.Instance.image.SetActive(true);
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        //Type each character 1 by 1
+        foreach(char c in initialDialogue[index].ToCharArray())
+        {
+            DialogueManager.Instance.dialogue.dialogueText.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < initialDialogue.Length - 1)
+        {
+            index++;
+            DialogueManager.Instance.dialogue.dialogueText.text = string.Empty;
+            StartCoroutine(TypeLine());
+        } else 
+        {
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false); 
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -125,6 +176,10 @@ public class RubyScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
+            first = true;
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false);
+            index = 0;
      }
     }
 }

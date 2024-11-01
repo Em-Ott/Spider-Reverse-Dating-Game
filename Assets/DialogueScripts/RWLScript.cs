@@ -8,7 +8,7 @@ public class RWLScript : MonoBehaviour
     public KeyCode interactKey = KeyCode.E;
     public SableScript sableScript;
 
-    private string[] dialogue = new string[]
+    private string[] initialDialogue = new string[]
     {
     "“Please, please save me!”",
     "It’s a Rough Woodlouse, trapped inside of some cobweb. For some reason it’s begging you, a spider, to save it.",
@@ -66,6 +66,10 @@ public class RWLScript : MonoBehaviour
     "“I understand.”"
     };
 
+    private bool first = true;
+    private int index = 0;
+    public float textSpeed = 0.05f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,10 +88,56 @@ public class RWLScript : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
+                if (first == true)
+                {
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Woodlouse"; 
+                }
+                if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
+                {
+                    NextLine();
+                } else 
+                {
+                    StopAllCoroutines();
+                    DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
+                }
+                //DialogueManager.Instance.dialogue.dialogueText.text 
             }
         }
-
     }
+    void StartDialog()
+    {
+        DialogueManager.Instance.image.SetActive(true);
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        //Type each character 1 by 1
+        foreach(char c in initialDialogue[index].ToCharArray())
+        {
+            DialogueManager.Instance.dialogue.dialogueText.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < initialDialogue.Length - 1)
+        {
+            index++;
+            DialogueManager.Instance.dialogue.dialogueText.text = string.Empty;
+            StartCoroutine(TypeLine());
+        } else 
+        {
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false); 
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -101,6 +151,10 @@ public class RWLScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
+            first = true;
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false);
+            index = 0;
      }
     }
 }

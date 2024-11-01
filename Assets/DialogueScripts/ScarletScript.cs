@@ -11,6 +11,11 @@ public class ScarletScript : MonoBehaviour
 
     private string[] initialDialogue = new string[]
     {
+    "In front of you is a beautiful spider with a bow. In the hole in the wall near her is a pile of assorted objects.", 
+    "You’re not sure what makes one spider more beautiful than the other. But she's probably beautiful.",
+    "All of their pixel arts look the same aside from the accessory they have anyway. Not that you know what pixel art is anyway.",
+    "“Hi!” Scarlet greets you cheerfully, and seems to be excited to talk to someone else.",
+    "Which isn’t usual for most spiders and puts you slightly on edge.",
     "“Oh!” She perks up and excitedly begins to pull items out one by one.",
     "The first is a block of orange cheese, “These are my knick knacks! I collect them from the humans!”",
     "The second is a stuffed rat that looks similar to the other rodent. It’s about the same size too and would be difficult to drag around.",
@@ -69,6 +74,10 @@ private string[] playerChoice = new string[]
     "Walk away"
 };
 
+private bool first = true;
+private int index = 0;
+public float textSpeed = 0.05f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,17 +95,62 @@ private string[] playerChoice = new string[]
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (inRange)
         {
             if(Input.GetKeyDown(interactKey))
             {
+                if (first == true)
+                {
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Scarlet"; 
+                }
+                if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
+                {
+                    NextLine();
+                } else 
+                {
+                    StopAllCoroutines();
+                    DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
+                }
+                //DialogueManager.Instance.dialogue.dialogueText.text 
             }
         }
-
     }
+    void StartDialog()
+    {
+        DialogueManager.Instance.image.SetActive(true);
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        //Type each character 1 by 1
+        foreach(char c in initialDialogue[index].ToCharArray())
+        {
+            DialogueManager.Instance.dialogue.dialogueText.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < initialDialogue.Length - 1)
+        {
+            index++;
+            DialogueManager.Instance.dialogue.dialogueText.text = string.Empty;
+            StartCoroutine(TypeLine());
+        } else 
+        {
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false); 
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -110,6 +164,10 @@ private string[] playerChoice = new string[]
         if (collision.CompareTag("Player"))
         {
             inRange = false;
+            first = true;
+            DialogueManager.Instance.image.SetActive(false);
+            DialogueManager.Instance.characterImage.SetActive(false); 
+            index = 0;
      }
     }
 }
