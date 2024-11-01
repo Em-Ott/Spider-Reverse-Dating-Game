@@ -48,7 +48,6 @@ public class RodentText : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
-                Debug.Log("Call Function");
             }
         }
 
@@ -58,17 +57,14 @@ public class RodentText : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = true;
-            Debug.Log("Player entered trigger area.");
      }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Play exit smth");
         if (collision.CompareTag("Player"))
         {
             inRange = false;
-            Debug.Log("Player exited trigger area.");
      }
     }
 }

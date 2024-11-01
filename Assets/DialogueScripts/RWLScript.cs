@@ -26,28 +26,23 @@ public class RWLScript : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
-                Debug.Log("Call Function");
             }
         }
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Play enter smth");
         if (collision.CompareTag("Player"))
         {
             inRange = true;
-            Debug.Log("Player entered trigger area.");
      }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Play exit smth");
         if (collision.CompareTag("Player"))
         {
             inRange = false;
-            Debug.Log("Player exited trigger area.");
      }
     }
 }
