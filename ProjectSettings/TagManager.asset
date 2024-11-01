@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cobweb
+  - Sable
+  - ViolinHinter
+  - CheeseHinter
   layers:
   - Default
   - TransparentFX

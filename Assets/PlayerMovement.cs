@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Animator animator;
     public float moveSpeed = 6f;
     public float verticalMoveSpeed = 1f;
     private Rigidbody2D rb;
@@ -19,14 +20,36 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
         if (onWeb)
         {
-            float moveY = Input.GetAxis("Vertical");
             moveInput = new Vector2(moveX * moveSpeed, moveY * verticalMoveSpeed).normalized;
             moveInput = new Vector2 (moveInput.x, moveInput.y * verticalMoveSpeed);
         } else {
-            moveInput = new Vector2(moveX, 0).normalized;
+            moveInput = new Vector2(moveX, 0f).normalized;
         }
+        
+        if (moveInput.y != 0f)
+        {
+            animator.SetFloat("VerticalSpeed", moveY);
+            animator.SetFloat("HorizontalSpeed", 0);
+        } else
+        {
+            animator.SetFloat("VerticalSpeed", 0);
+            animator.SetFloat("HorizontalSpeed", Mathf.Abs(moveX));
+
+            Vector3 scale = transform.localScale;
+            if (moveX > 0)
+            {
+                scale.x = -2;
+            }
+            else if (moveX < 0)
+            {
+                scale.x = 2;
+            }
+            transform.localScale = scale;
+        }
+
     }
 
         void FixedUpdate()
