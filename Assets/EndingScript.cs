@@ -8,13 +8,15 @@ public class EndingScript : MonoBehaviour
 {
     public TextMeshProUGUI endingText;
     public GameObject endingScreen;
-    public float textSpeed;
+    public float textSpeed = 0.05f;
+    public KeyCode interactKey = KeyCode.E;
+
     private int index;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

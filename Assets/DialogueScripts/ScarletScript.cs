@@ -78,6 +78,8 @@ private bool first = true;
 private int index = 0;
 public float textSpeed = 0.05f;
 
+public bool hasCheese = false;
+
     // Start is called before the first frame update
     void Start()
     {
