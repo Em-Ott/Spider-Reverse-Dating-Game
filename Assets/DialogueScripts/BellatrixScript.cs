@@ -6,6 +6,9 @@ public class BellatrixScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
     public SableScript sableScript;
     public string currentString;
     private string[] initialDialogue = new string[]
@@ -50,9 +53,12 @@ public class BellatrixScript : MonoBehaviour
     "“Where’s Venna?”"
     };
 
-    private bool first = true;
-    private int index = 0;
-    public float textSpeed = 0.05f;
+        private bool first = true;
+       private bool unread = true;
+        private int index = 0;
+        public float textSpeed = 0.05f;
+        private int inProgress = 0;
+        private bool[] playerChoicesChosen = new bool[] {false, false, false, false, false};
 
 
     // Start is called before the first frame update
@@ -79,16 +85,102 @@ public class BellatrixScript : MonoBehaviour
                     first = false;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Bellatrix"; 
+                } else if (unread == false)
+                {
+                    index = 25;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Bellatrix"; 
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    /*
+                    Dialogue 5 -> Choice 0, 1, 2
+                    Choice 0, 1 -> Dialogue 6-7
+                    Dialogue 7 -> Choices 3, 4, 5
+                    Choice 3 -> Dialogue 8-12 -> Choices 6, 4, 5
+                    Choice 6 -> Dialogue 13-16 -> Choices 4, 5
+                    Choice 4 -> 17-20 -> Choice 7, 5
+                    Choice 7 -> Dialogue 21
+                    */
+                    if (index == 5)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                    } else if (index == 7)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[3]
+                        + "\n" + playerChoices[4] + "\n" + playerChoices[5];
+                    } else if (index == 12)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[6]
+                        + "\n" + playerChoices[4] + "\n" + playerChoices[5];
+                    } else if (index == 16)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4] 
+                        + "\n" + playerChoices[5];
+                    } else if (index == 20)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[7] 
+                        + "\n" + playerChoices[5];
+                    } else
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else if (inProgress == 1)
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 12)
+                    {
+                        sableScript.exisentialismPoints += 1;
+                    }
+                    NextLine();
+                    
+                } else if (Input.GetKeyDown(twoKey))
+                {
+                    if (index == 5)
+                    {
+                        NextLine();
+                    } else if (index == 7)
+                    {
+                        index = 16;
+                        NextLine();
+                    } else if (index == 12)
+                    {
+                        index = 16;
+                        NextLine();
+                    } else if (index == 16)
+                    {
+                        unread = false;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                    } else if (index == 20)
+                    {
+                        unread = false;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                    }
+                } else if (Input.GetKeyDown(threeKey))
+                {
+                    if (index == 5 || index == 7 || index == 12)
+                    {
+                        ResetEncounter();
+                    } 
+                }
             }
         }
     }
@@ -136,10 +228,18 @@ public class BellatrixScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
-            first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
             index = 0;
      }
+    }
+
+    private void ResetEncounter()
+    {
+        index = 0;
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        inProgress = 0;
+        first = true;
     }
 }

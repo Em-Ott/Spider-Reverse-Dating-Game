@@ -266,8 +266,10 @@ public class RodentText : MonoBehaviour
     }
     private void CheeseEnding()
     {
-        //code that won't be used but I don't want an empty function
         DialogueManager.Instance.image.SetActive(false);
         DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending One:" + "\n" + "DEATH" 
+        + "\n" + "You bit off more than you could chew.";
     }
 }
