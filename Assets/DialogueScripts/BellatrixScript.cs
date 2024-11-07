@@ -10,7 +10,6 @@ public class BellatrixScript : MonoBehaviour
     public KeyCode twoKey = KeyCode.Alpha2;
     public KeyCode threeKey = KeyCode.Alpha3;
     public SableScript sableScript;
-    public string currentString;
     private string[] initialDialogue = new string[]
     {
     "In front of you are two spiders, one alive and one dead.",
@@ -58,7 +57,6 @@ public class BellatrixScript : MonoBehaviour
         private int index = 0;
         public float textSpeed = 0.05f;
         private int inProgress = 0;
-        private bool[] playerChoicesChosen = new bool[] {false, false, false, false, false};
 
 
     // Start is called before the first frame update

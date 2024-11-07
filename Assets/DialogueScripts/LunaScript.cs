@@ -6,6 +6,9 @@ public class LunaScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
     public bool violinHint; 
     public SableScript sableScript;
     private string[] initialDialogue = new string[]
@@ -31,9 +34,11 @@ public class LunaScript : MonoBehaviour
 	    "“Is that it? You aren’t going to try and date me or kill me or anything?”",
         "Fight her for no particular reason other than wanting to fight"
     };
-   private bool first = true;
-    private int index = 0;
-    public float textSpeed = 0.05f;
+        private bool first = true;
+       private bool unread = true;
+        private int index = 0;
+        public float textSpeed = 0.05f;
+        private int inProgress = 0;
 
 
 
@@ -61,16 +66,88 @@ public class LunaScript : MonoBehaviour
                     first = false;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Luna"; 
+                } else if (unread == false)
+                {
+                    index = 10;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Luna"; 
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    /*
+                    Dialogue 1 -> Choice 0, 1, 2
+                    Choice 0 -> Dialogue 2-4 -> Choice 3, 4, 2
+                    Choice 3 -> Dialogue 5
+                    Choice 4 -> Dialogue 6
+                    Choice 1 -> Dialogue 7-8 -> Choice 0, 5
+                    Choice 5 -> Dialogue 9 
+                    */
+                    if (index == 1)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                    } else if (index == 4)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[3]
+                        + "\n" + playerChoices[4] + "\n" + playerChoices[2];
+                    } else if (index == 8)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[5] + "\n" + playerChoices[2];
+                    } else if (index == 5 || index == 6)
+                    {
+                        unread = false;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                    } else
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else if (inProgress == 1)
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 1)
+                    {
+                        NextLine();
+                    } else if (index == 4)
+                    {
+                        NextLine();
+                    } else if (index == 8)
+                    {
+                        index = 1;
+                        NextLine();
+                    }
+                } else if (Input.GetKeyDown(twoKey))
+                {
+                    if (index == 1)
+                    {
+                        index = 6;
+                        NextLine();
+                    } else if (index == 4)
+                    {
+                        index = 5;
+                        NextLine();
+                    } else if (index == 8)
+                    {
+                        NextLine();
+                        //Ending
+                    }
+                } else if (Input.GetKeyDown(threeKey))
+                {
+                    ResetEncounter();
+                }
             }
         }
     }
@@ -118,10 +195,17 @@ public class LunaScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
-            first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
             index = 0;
      }
+    }
+    private void ResetEncounter()
+    {
+        index = 0;
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        inProgress = 0;
+        first = true;
     }
 }
