@@ -10,7 +10,6 @@ public class LunaScript : MonoBehaviour
     public KeyCode twoKey = KeyCode.Alpha2;
     public KeyCode threeKey = KeyCode.Alpha3;
     public bool violinHint; 
-    public SableScript sableScript;
     private string[] initialDialogue = new string[]
     {
     "The spider in front of you was sleeping until you landed on her web.", 
@@ -32,7 +31,7 @@ public class LunaScript : MonoBehaviour
 	    "Leave",
         "“Thank you!”",
 	    "“Is that it? You aren’t going to try and date me or kill me or anything?”",
-        "Fight her for no particular reason other than wanting to fight"
+        "Fight her for no reason other than wanting to fight"
     };
         private bool first = true;
        private bool unread = true;
@@ -45,11 +44,6 @@ public class LunaScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject sableObject = GameObject.Find("Sable");
-        if (sableObject != null)
-        {
-            sableScript = sableObject.GetComponent<SableScript>();
-        }
         violinHint = false;
     }
 
@@ -77,7 +71,7 @@ public class LunaScript : MonoBehaviour
                 {
                     /*
                     Dialogue 1 -> Choice 0, 1, 2
-                    Choice 0 -> Dialogue 2-4 -> Choice 3, 4, 2
+                    Choice 0 -> Dialogue 2-4, violinHint = true -> Choice 3, 4, 2
                     Choice 3 -> Dialogue 5
                     Choice 4 -> Dialogue 6
                     Choice 1 -> Dialogue 7-8 -> Choice 0, 5
@@ -104,6 +98,9 @@ public class LunaScript : MonoBehaviour
                         DialogueManager.Instance.image.SetActive(false);
                         DialogueManager.Instance.characterImage.SetActive(false); 
                         inProgress = 0;
+                    } else if (index == 9)
+                    {
+                        pickedAFight();
                     } else
                     {
                         NextLine();
@@ -120,6 +117,7 @@ public class LunaScript : MonoBehaviour
                 {
                     if (index == 1)
                     {
+                        violinHint = true;
                         NextLine();
                     } else if (index == 4)
                     {
@@ -207,5 +205,14 @@ public class LunaScript : MonoBehaviour
         DialogueManager.Instance.characterImage.SetActive(false); 
         inProgress = 0;
         first = true;
+    }
+
+    private void pickedAFight()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Five:" + "\n" + "DEATH" 
+        + "\n" + "In another game you could’ve pulled off some sick combo, won, and then emoted but this isn’t a game with skill expression.";
     }
 }

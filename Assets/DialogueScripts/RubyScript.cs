@@ -6,6 +6,10 @@ public class RubyScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
+    public KeyCode fourKey = KeyCode.Alpha4;
     public LunaScript lunaScript; 
     public SableScript sableScript;
     private string[] initialDialogue = new string[]
@@ -18,10 +22,6 @@ public class RubyScript : MonoBehaviour
     "“No one’s ever told me that before.”", 
     "It makes sense that no one’s told her that before, spiders mainly live solitary lives outside of eating each other and reproducing with each other.", 
     "Spiders also can’t talk normally.", 
-    "In the past you didn’t really communicate with your siblings.", 
-    "In fact you stayed far away from them.", 
-    "But you remember that when you did have to communicate with them you used vibrations through the cob webs, or pheromones were used.", 
-    "It was strange how you could suddenly communicate so clearly with them but you don’t question it much more, at least for now.", 
     "She seems excited at your praise and plays louder at your request to the point it can probably be heard from outside the walls.", 
     "The sound distresses you.", 
     "“No.”", 
@@ -53,19 +53,16 @@ public class RubyScript : MonoBehaviour
     "You are quite sure that a violin is what’s in front of you.", 
     "But you’re not sure how you know that.", 
     "You’ve noticed that recently you understand a lot of things you shouldn’t.", 
-    "That, alongside the strange voice in your head, is making you suspicious of your own existence."
-    }; 
-
-    private string[] futureDialogue = new string[]
-    {
+    "That, alongside the strange voice in your head, is making you suspicious of your own existence.",
     "Ruby ignores you, playing her violin furiously.", 
     "Ruby perks up as you crawl over to her, “My adoring fan! Is there anything I can do for you?”", 
     "She seems excited at your praise and plays louder at your request to the point it can probably be heard from outside the walls.",
     "The sound distresses you.",
     "The hairs on your legs bristle from the vibrations from the violin, allowing you to listen.",
     "You doubt the noise is anything the human ear can hear.",
-    "She waves at you with one appendage and then goes back to playing."
-    };
+    "She waves at you with one appendage and then goes back to playing.",
+    "Ruby is playing the violin."
+    }; 
 
     private string[] playerChoices = new string[]
     {
@@ -80,11 +77,18 @@ public class RubyScript : MonoBehaviour
     "“I don’t like it either.”",
     "“Maybe!”",
     "“Actually, I think I’m meant to be your perfect audience.”",
-    "“Please no.”"
+    "“Please no.”",
+    "“I’m just here to listen to your music!”",
+	"“Nope, just wanted to say hi!”",
+    "You listen for a moment and then walk away."
     };
-    private bool first = true;
-    private int index = 0;
-    public float textSpeed = 0.05f;
+        private bool first = true;
+       private bool unread = true;
+        private int index = 0;
+        public float textSpeed = 0.05f;
+        private int inProgress = 0;
+        public bool violinPlayed = false;
+        private bool[] futureEncounter = new bool[] {false, false};
 
 
 
@@ -95,14 +99,12 @@ public class RubyScript : MonoBehaviour
         if (lunaObject != null)
         {
             lunaScript = lunaObject.GetComponent<LunaScript>();
-            //READS SUCCESSFULLY YAYYYY
         }
 
         GameObject sableObject = GameObject.Find("Sable");
         if (sableObject != null)
         {
             sableScript = sableObject.GetComponent<SableScript>();
-            //READS SUCCESSFULLY YAYYYY
         }
     }
 
@@ -119,16 +121,115 @@ public class RubyScript : MonoBehaviour
                     first = false;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
+                } else if (futureEncounter[0] == true)
+                {
+                    index = 40;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
+                } else if (futureEncounter[1] == true)
+                {
+                    index = 41;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
+                } else if (unread == false)
+                {
+                    index = 47;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    /*
+                    Dialogue Management:
+                    Dialogue 0-2: Choice 0, 1, 2, 3
+                    Choice 2 -> ResetEncounter()
+                    Choice 0 -> Dialogue 3-7: Choice 5, 6, 4 (if violinHint)
+                    Choice 4 -> Dialogue 8-9 violinPlayed = true
+                    Choice 6 -> Dialogue 10-12: Choice 7, 8
+                    Choice 7 -> Dialogue 13-14
+                    Choice 8 -> Dialogue 15-20: Choice 9, 10, 11
+                    Choice 9 -> Dialogue 21-22 Ya Like Jazz? Ending
+                    Choice 10 -> Dialogue 23-29 (+1 Exisentialism Point choice 10) futureEncounter[1] = true
+                    Choice 11 -> Dialogue 30-33 futureEncounter[0] = true
+                    Choice 1 -> Dialogue 34-35 futureEncounter[0] = true
+                    Choice 3 -> Dialogue 36-39: Choice 0, 1, 2 (+1 Exisentialism Point from Choice 3)
+                    futureEncounter[0] = true -> Dialogue 40
+                    futureEncounter[1] = true -> Dialogue 41: Choice 12, Choice 13, Choice 4
+                    Choice 12 -> Dialogue 44-45
+                    Choice 13 -> Dialogue 46
+                    else unread = false Dialogue 47: Choice 14, Choice 4
+                    */
+                    if (index == 2)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2] + "\n" + playerChoices[3];
+                    } else if (index == 7)
+                    {
+                        inProgress = 1;
+                        if (lunaScript.violinHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[5]
+                            + "\n" + playerChoices[6] + "\n" + playerChoices[4];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[5]
+                            + "\n" + playerChoices[6]; 
+                        }
+                    } else if (index == 12)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[7]
+                        + "\n" + playerChoices[8];
+                    } else if (index == 20)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[9]
+                        + "\n" + playerChoices[10] + "\n" + playerChoices[11];
+                    } else if (index == 39)
+                    {
+                        inProgress = 1;
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                    } else if (index == 41)
+                    {
+                        inProgress = 1;
+                        if (lunaScript.violinHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[12]
+                            + "\n" + playerChoices[13] + "\n" + playerChoices[4];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[12]
+                            + "\n" + playerChoices[13]; 
+                        }
+                    } else if (index == 47)
+                    {
+                        inProgress = 1;
+                        if (lunaScript.violinHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[14]
+                            + "\n" + playerChoices[4];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[14];
+                        }
+                    } else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else if (inProgress == 1)
+            {
+                
             }
         }
     }
