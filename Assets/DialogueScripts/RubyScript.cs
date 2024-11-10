@@ -56,8 +56,6 @@ public class RubyScript : MonoBehaviour
     "That, alongside the strange voice in your head, is making you suspicious of your own existence.",
     "Ruby ignores you, playing her violin furiously.", 
     "Ruby perks up as you crawl over to her, “My adoring fan! Is there anything I can do for you?”", 
-    "She seems excited at your praise and plays louder at your request to the point it can probably be heard from outside the walls.",
-    "The sound distresses you.",
     "The hairs on your legs bristle from the vibrations from the violin, allowing you to listen.",
     "You doubt the noise is anything the human ear can hear.",
     "She waves at you with one appendage and then goes back to playing.",
@@ -88,6 +86,7 @@ public class RubyScript : MonoBehaviour
         public float textSpeed = 0.05f;
         private int inProgress = 0;
         public bool violinPlayed = false;
+        private bool stuck = false;
         private bool[] futureEncounter = new bool[] {false, false};
 
 
@@ -127,18 +126,20 @@ public class RubyScript : MonoBehaviour
                     StartDialog();
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
-                } else if (futureEncounter[1] == true)
+                } else if (futureEncounter[1] == true && stuck == false)
                 {
                     index = 41;
                     StartDialog();
+                    stuck = true;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
                 } else if (unread == false)
                 {
-                    index = 47;
+                    index = 45;
                     StartDialog();
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Ruby"; 
+                    unread = true;
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
@@ -158,8 +159,8 @@ public class RubyScript : MonoBehaviour
                     Choice 3 -> Dialogue 36-39: Choice 0, 1, 2 (+1 Exisentialism Point from Choice 3)
                     futureEncounter[0] = true -> Dialogue 40
                     futureEncounter[1] = true -> Dialogue 41: Choice 12, Choice 13, Choice 4
-                    Choice 12 -> Dialogue 44-45
-                    Choice 13 -> Dialogue 46
+                    Choice 12 -> Dialogue 42-43
+                    Choice 13 -> Dialogue 44
                     else unread = false Dialogue 47: Choice 14, Choice 4
                     */
                     if (index == 2)
@@ -206,8 +207,9 @@ public class RubyScript : MonoBehaviour
                             DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[12]
                             + "\n" + playerChoices[13]; 
                         }
-                    } else if (index == 47)
+                    } else if (index == 45)
                     {
+                        Debug.Log("text?");
                         inProgress = 1;
                         if (lunaScript.violinHint == true)
                         {
@@ -215,9 +217,48 @@ public class RubyScript : MonoBehaviour
                             + "\n" + playerChoices[4];
                         } else 
                         {
+                            unread = false; 
                             DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[14];
                         }
-                    } else 
+                    } else if (index == 9)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                        violinPlayed = true;
+                        stuck = false;
+                    } else if (index == 29)
+                    {
+                        sableScript.exisentialismPoints += 1;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                        futureEncounter[1] = true;
+                    } else if (index == 39)
+                    {
+                        sableScript.exisentialismPoints += 1;
+                    } else if (index == 33)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                        futureEncounter[0] = true;                    
+                    } else if (index == 14)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                    } else if (index == 43)
+                    {
+                        stuck = false;
+                    } else if (index == 44)
+                    {
+                        stuck = false;
+                    } else
                     {
                         NextLine();
                     }
@@ -229,7 +270,96 @@ public class RubyScript : MonoBehaviour
                 //DialogueManager.Instance.dialogue.dialogueText.text 
             } else if (inProgress == 1)
             {
-                
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 2)
+                    {
+                        NextLine();
+                    } else if (index == 7)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                        futureEncounter[1] = true;
+                    } else if (index == 12)
+                    {
+                        NextLine();
+                    } else if (index == 20)
+                    {
+                        NextLine();
+                    } else if (index == 39)
+                    {
+                        index = 2;
+                        NextLine();
+                    } else if (index == 41)
+                    {
+                        NextLine();
+                    } else if (index == 45)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        inProgress = 0;
+                        unread = false;
+                    }
+
+                } else if (Input.GetKeyDown(twoKey))
+                {
+                    if (index == 2)
+                    {
+                        index = 33;
+                        futureEncounter[0] = true;
+                        NextLine();
+                    } else if (index == 7)
+                    {
+                        index = 9;
+                        NextLine();
+                    } else if (index == 12)
+                    {
+                        index = 14;
+                        NextLine();
+                    } else if (index == 20)
+                    {
+                        index = 22;
+                        NextLine();
+                    } else if (index == 39)
+                    {
+                        index = 33;
+                        NextLine(); 
+                    } else if (index == 41)
+                    {
+                        index = 43;
+                        NextLine();
+                    } else if (index == 45 && lunaScript.violinHint == true)
+                    {
+                        index = 7;
+                        NextLine();
+                    }
+                } else if (Input.GetKeyDown(threeKey))
+                {
+                    if (index == 2)
+                    {
+                        ResetEncounter();
+                    } else if (index == 7 && lunaScript.violinHint == true)
+                    {
+                        NextLine();
+                    } else if (index == 20)
+                    {
+                        index = 29;
+                        NextLine();
+                    } else if (index == 39)
+                    {
+                        ResetEncounter();
+                    } else if (index == 41 && lunaScript.violinHint == true)
+                    {
+                        index = 7;
+                        NextLine();
+                    } 
+                } else if (Input.GetKeyDown(fourKey) && index == 2)
+                {
+                    index = 35;
+                    NextLine();
+                }
             }
         }
     }
@@ -282,5 +412,14 @@ public class RubyScript : MonoBehaviour
             DialogueManager.Instance.characterImage.SetActive(false);
             index = 0;
      }
+    }
+
+    private void ResetEncounter()
+    {
+        index = 0;
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        inProgress = 0;
+        first = true;
     }
 }

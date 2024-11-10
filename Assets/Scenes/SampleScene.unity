@@ -387,9 +387,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
+  fourKey: 52
   lunaScript: {fileID: 0}
   sableScript: {fileID: 0}
   textSpeed: 0.05
+  violinPlayed: 0
 --- !u!61 &39468112
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4417,8 +4422,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
   violinHint: 0
-  sableScript: {fileID: 0}
   textSpeed: 0.05
 --- !u!61 &999537776
 BoxCollider2D:
@@ -6133,7 +6140,7 @@ GameObject:
   - component: {fileID: 1492429009}
   m_Layer: 6
   m_Name: ViolinWin
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6430,8 +6437,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
   sableScript: {fileID: 0}
-  currentString: 
   textSpeed: 0.05
 --- !u!1 &1521107775
 GameObject:

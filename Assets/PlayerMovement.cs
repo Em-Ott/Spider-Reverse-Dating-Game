@@ -62,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Cobweb"))
         {
             onWeb = true;
+        } else if (other.gameObject.CompareTag("Finish"))
+        {
+            //connect to dialogue manager and do game ending screen
         }
     }
 
