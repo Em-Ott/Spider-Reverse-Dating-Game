@@ -42,6 +42,7 @@ public class RodentText : MonoBehaviour
         public float textSpeed = 0.05f;
         private int inProgress = 0;
         private bool[] playerChoicesChosen = new bool[] {false, false, false, false, false};
+        private bool stuck = false;
 
 
     // Start is called before the first frame update
@@ -60,22 +61,18 @@ public class RodentText : MonoBehaviour
             if(Input.GetKeyDown(interactKey))
             {
                 
-                if (DialogueManager.Instance.scarletScript.hasCheese == true)
-                {
-                    //need to make sure not repeating setting index to 10 so add another variable and check
-                    //that in if statement then when index 14 play cheese ending
-                    index = 10;
-                }
-                
                 if (first == true)
                 {
                     StartDialog(); //This causes line 0 to be played
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Rodent"; 
                     first = false;
+                } else if ((DialogueManager.Instance.scarletScript.hasCheese == true) && (stuck == false))
+                {
+                    index = 10;
+                    stuck = true;
                 } else if (unread == false)
                 {
-                    //For some reason index 0 is being read beforehand?
                     index = 9;
                     StartDialog();
                     DialogueManager.Instance.characterImage.SetActive(true);
@@ -273,7 +270,7 @@ public class RodentText : MonoBehaviour
         DialogueManager.Instance.image.SetActive(false);
         DialogueManager.Instance.characterImage.SetActive(false); 
         DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
-        DialogueManager.Instance.endingScript.endingText.text = "Ending One:" + "\n" + "DEATH" 
-        + "\n" + "You bit off more than you could chew.";
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Seven:" + "\n" + "Cheese" 
+        + "\n" + "Top 3 Cheeses 2024:" + "\n 1. Mozzarella \n 2. Sriracha Gouda \n 3. Munster";
     }
 }

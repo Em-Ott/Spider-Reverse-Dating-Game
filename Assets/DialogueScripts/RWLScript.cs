@@ -50,7 +50,7 @@ public class RWLScript : MonoBehaviour
 
     private string[] playerOptions = new string[]
     {
-            "“Why should I?”",
+    "“Why should I?”",
     "“Be quiet unless you want to get eaten right now.”",
     "Walk away, there’s no reason to bother yourself with this small fry.",
     "“Why do you want to live?”",
