@@ -51,6 +51,10 @@ public class RodentText : MonoBehaviour
 
     void Update()
     {
+        if (DialogueManager.Instance.rubyScript.violinPlayed == true)
+        {
+            Destroy(gameObject);
+        }
         if (inRange)
         {
             if(Input.GetKeyDown(interactKey))

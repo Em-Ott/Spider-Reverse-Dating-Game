@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
             onWeb = true;
         } else if (other.gameObject.CompareTag("Finish"))
         {
-            //connect to dialogue manager and do game ending screen
+            ViolinEnding();
         }
     }
 
@@ -74,5 +74,14 @@ public class PlayerMovement : MonoBehaviour
         {
             onWeb = false;
         }
+    }
+
+    void ViolinEnding()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Eight:" + "\n" + "ESCAPED" 
+        + "\n" + "The World's Smallest Violin by AJR is a banger.";
     }
 }

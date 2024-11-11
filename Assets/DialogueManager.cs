@@ -16,6 +16,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue dialogue;
     public CharacterNameText characterNameText;
     public EndingScript endingScript;
+    public PlayerMovement playerMovement;
 
     public GameObject image;
     public GameObject characterImage;

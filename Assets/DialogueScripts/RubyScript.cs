@@ -258,6 +258,9 @@ public class RubyScript : MonoBehaviour
                     } else if (index == 44)
                     {
                         stuck = false;
+                    } else if (index == 22)
+                    {
+                        YaLikeJazz();
                     } else
                     {
                         NextLine();
@@ -421,5 +424,14 @@ public class RubyScript : MonoBehaviour
         DialogueManager.Instance.characterImage.SetActive(false); 
         inProgress = 0;
         first = true;
+    }
+
+        private void YaLikeJazz()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Four:" + "\n" + "DEATH" 
+        + "\n" + "You don't like jazz :(";
     }
 }
