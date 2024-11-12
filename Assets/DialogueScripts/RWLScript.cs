@@ -160,6 +160,10 @@ public class RWLScript : MonoBehaviour
                             if (index == (i+5))
                             {
                                 //do nothing questions stays the same
+                                //looking back I realize this doesn't work as intended but I'm in
+                                //a time crunch to finish and it isn't a noticeable problem from
+                                //the player perspective
+                                //maybe I'll revisit it if I have time later
                             } else 
                             {
                                 questions = questions + playerChoices[i+5] + "\n";
@@ -214,13 +218,16 @@ public class RWLScript : MonoBehaviour
                         NextLine();
                     } else if (index == 5)
                     {
-                        
+                        NextLine();
                     } else if ((index >= 6 && index <= 8) || index == 4)
                     {
-                        
+                        //Choice 4
+                        index = 4;
+                        NextLine();
                     } else if (index == 22)
                     {
-                        
+                        index = 13;
+                        NextLine();
                     }
                 } else if(Input.GetKeyDown(twoKey))
                 {
@@ -234,13 +241,18 @@ public class RWLScript : MonoBehaviour
                         NextLine();
                     } else if (index == 5 || index == 6)
                     {
-                        
+                        index = 6;
+                        NextLine();
                     } else if ((index > 6 && index <= 8) || index == 4)
                     {
-                        
+                        index = 5;
+                        NextLine();
                     } else if (index == 22)
                     {
-                        
+                        dT[0] = true;
+                        deathConsolation = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
                     }
 
                 } else if(Input.GetKeyDown(threeKey))
@@ -257,13 +269,18 @@ public class RWLScript : MonoBehaviour
                         DialogueManager.Instance.characterImage.SetActive(false);
                     } else if (index == 8 || index == 4)
                     {
-                        
+                        //Choice 6
+                        index = 6;
+                        NextLine();
                     } else if ((index >= 5 && index <= 7))
                     {
-                        
+                        //Choice 7
+                        index = 7;
+                        NextLine();
                     } else if (index == 22)
                     {
-                        
+                        index = 22;
+                        NextLine();
                     }
                 } else if(Input.GetKeyDown(fourKey))
                 {
@@ -276,7 +293,9 @@ public class RWLScript : MonoBehaviour
                         ChoiceEight();
                     } else if (index == 4)
                     {
-
+                        //Choice 7
+                        index = 7;
+                        NextLine();
                     }
                 } else if (Input.GetKeyDown(fiveKey))
                 {
@@ -335,7 +354,6 @@ public class RWLScript : MonoBehaviour
             first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
-            index = 0;
      }
     }
     

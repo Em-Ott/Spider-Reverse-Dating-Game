@@ -151,7 +151,6 @@ public class SableScript : MonoBehaviour
             first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
-            index = 0;
      }
     }
 }

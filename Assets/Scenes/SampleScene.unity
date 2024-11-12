@@ -4617,7 +4617,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1044853213}
   - component: {fileID: 1044853212}
-  - component: {fileID: 1044853211}
   - component: {fileID: 1044853214}
   - component: {fileID: 1044853215}
   m_Layer: 0
@@ -4627,41 +4626,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!70 &1044853211
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044853210}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
-  m_Direction: 1
 --- !u!212 &1044853212
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7321,6 +7285,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
+  fourKey: 52
+  fiveKey: 53
   sableScript: {fileID: 0}
   textSpeed: 0.05
 --- !u!1 &1674967837
