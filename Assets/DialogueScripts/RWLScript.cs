@@ -6,6 +6,11 @@ public class RWLScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
+    public KeyCode fourKey = KeyCode.Alpha4;
+    public KeyCode fiveKey = KeyCode.Alpha5;
     public SableScript sableScript;
 
     private string[] initialDialogue = new string[]
@@ -48,7 +53,7 @@ public class RWLScript : MonoBehaviour
     "The Rough Woodlouse is dead. At least it isn’t crying anymore."
     };
 
-    private string[] playerOptions = new string[]
+    private string[] playerChoices = new string[]
     {
     "“Why should I?”",
     "“Be quiet unless you want to get eaten right now.”",
@@ -69,6 +74,11 @@ public class RWLScript : MonoBehaviour
     private bool first = true;
     private int index = 0;
     public float textSpeed = 0.05f;
+    //dT = dialogueTick checks times players interacted (there is a reason it's a bool and not int)
+    private bool[] dT = new bool[] {false, false};
+    private bool hatred = false;
+    private bool deathConsolation = false;
+    private string questions = "";
 
 
     // Start is called before the first frame update
@@ -94,16 +104,187 @@ public class RWLScript : MonoBehaviour
                     first = false;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Woodlouse"; 
-                }
+                } else if (dT[1] == true)
+                {
+                    index = 35;
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Woodlouse"; 
+                } else if (dT[0] == true && hatred == true)
+                {
+                    index = 31;
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Woodlouse"; 
+                    dT[0] = false;
+                } else if (dT[0] == true && deathConsolation == true)
+                {
+                    index = 33;
+                    StartDialog();
+                    first = false;
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Woodlouse"; 
+                    dT[0] = false;
+                } 
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    if (index == 1)
+                    {
+                        if (sableScript.exisentialismPoints >= 2)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                            + "\n" + playerChoices[1] + "\n" + playerChoices[2] + "\n" + playerChoices[3];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                            + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                        }
+                    } else if (index == 9 || index == 10)
+                    {
+                        dT[0] = true;
+                        hatred = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                    } else if (index == 13)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[9]
+                        + "\n" + playerChoices[10] + "\n" + playerChoices[11];
+                    } else if (index >= 4 && index <= 8)
+                    {
+                        //for loop if index = to number don't print else print
+                        //questions = temp var
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            if (index == (i+5))
+                            {
+                                //do nothing questions stays the same
+                            } else 
+                            {
+                                questions = questions + playerChoices[i+5] + "\n";
+                            }
+                            DialogueManager.Instance.dialogue.dialogueText.text = questions;
+                        }
+                    } else if (index == 20)
+                    {
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                        sableScript.exisentialismPoints += 1;
+                        dT[1] = true;
+                    } else if (index == 22)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[9]
+                        + "\n" + playerChoices[11] + "\n" + playerChoices[12];
+                    } else if (index == 30)
+                    {
+                        sableScript.exisentialismPoints += 1;
+                        dT[0] = true;
+                        deathConsolation = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                    } else if (index == 31)
+                    {
+                        dT[0] = false;
+                        NextLine();
+                    } else if (index == 32)
+                    {
+                        dT[1] = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false); 
+                    } else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else 
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 1)
+                    {
+                        NextLine();
+                    } else if (index == 13)
+                    {
+                        NextLine();
+                    } else if (index == 5)
+                    {
+                        
+                    } else if ((index >= 6 && index <= 8) || index == 4)
+                    {
+                        
+                    } else if (index == 22)
+                    {
+                        
+                    }
+                } else if(Input.GetKeyDown(twoKey))
+                {
+                    if (index == 1)
+                    {
+                        index = 8;
+                        NextLine();
+                    } else if (index == 13)
+                    {
+                        index = 20;
+                        NextLine();
+                    } else if (index == 5 || index == 6)
+                    {
+                        
+                    } else if ((index > 6 && index <= 8) || index == 4)
+                    {
+                        
+                    } else if (index == 22)
+                    {
+                        
+                    }
+
+                } else if(Input.GetKeyDown(threeKey))
+                {
+                    if (index == 1)
+                    {
+                        index = 9;
+                        NextLine();
+                    } else if (index == 13)
+                    {
+                        dT[0] = true;
+                        deathConsolation = true;
+                        DialogueManager.Instance.image.SetActive(false);
+                        DialogueManager.Instance.characterImage.SetActive(false);
+                    } else if (index == 8 || index == 4)
+                    {
+                        
+                    } else if ((index >= 5 && index <= 7))
+                    {
+                        
+                    } else if (index == 22)
+                    {
+                        
+                    }
+                } else if(Input.GetKeyDown(fourKey))
+                {
+                    if (index == 1 && sableScript.exisentialismPoints >= 1)
+                    {
+                        index = 10;
+                        NextLine();
+                    } else if ((index >= 5 && index <= 8))
+                    {
+                        ChoiceEight();
+                    } else if (index == 4)
+                    {
+
+                    }
+                } else if (Input.GetKeyDown(fiveKey))
+                {
+                    if (index == 4)
+                    {
+                        ChoiceEight();
+                    }
+                }
             }
         }
     }
@@ -156,5 +337,21 @@ public class RWLScript : MonoBehaviour
             DialogueManager.Instance.characterImage.SetActive(false);
             index = 0;
      }
+    }
+    
+    private void ChoiceEight()
+    {
+        if (dT[0] == true)
+        {
+            dT[0] = false;
+            dT[1] = true;
+        } else
+        {
+            dT[0] = true;
+        }
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        first = true;
+        index = 0;
     }
 }

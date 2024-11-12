@@ -58,10 +58,7 @@ public class VennaScript : MonoBehaviour
     "The spider seems angry at that, “Fine! If that’s what you want!”",
     "“Don’t come crawling back then!”",
     "She’s clearly offended by your words and probably won’t take kindly if you talk to her again.",
-    "You should probably find a different way to get the rodent to move."
-    };
-
-    private string[] futureDialogue = new string[]{
+    "You should probably find a different way to get the rodent to move.",
     "“You’re back, did you change your mind?” Venna asks, the smile on her face is very sweet and almost tempting enough for you to say that you did change your mind.",
     "But, at the same time, you don't really want to be eaten.",
     "Venna seems pleased with herself at your sudden change of heart and reaches out an appendage which you take with your own.",
@@ -78,20 +75,23 @@ public class VennaScript : MonoBehaviour
 
     private string[] playerChoices = new string[]
     {
-    "“Do you want a bite?”",
+    "“Do you want a bite?”", 
     "“Sorry, but I'm malnourished.”",
-    "“Please don’t eat me.”",
+    "“Please don’t eat me.”", 
     "“Stay away from me.”",
-    "“Could you tell me about why that rodent is crying?”",
+    "“Could you tell me about why that rodent is crying?”", 
     "“I just wanted to say hi.”",
-    "Contemplate what blinking is",
+    "Contemplate what blinking is", 
     "Walk Away",
-    "“Thanks, that’s nice.”",
-    "“I don’t want you to care about me.”",
-    "Contemplate how spider eyes can show any emotion.",
+    "“Thanks, that’s nice.”", 
+    "“I don’t want you to care about me.”", 
+    "Contemplate how spider eyes can show any emotion.", 
     "“Yeah I did.”",
     "“No, I was wondering if you could tell me why the rodent is crying?”",
-    "“No, I just wanted to say hi.”"
+    "“No, I just wanted to say hi.”",
+    "No",
+    "Yes",
+    "“Nothing, I just wanted to let you know he declined.”"
     };
 
     private int index = 0;

@@ -43,8 +43,10 @@ public class SableScript : MonoBehaviour
     "“Yeah, let me know if you need anything else,” He replies and focuses back on the wall that’s across the ledge.",
     "You really don’t understand why he’d be so fixated on it.",
     "But it doesn’t matter.",
+    "“If you ever want to come back and talk I’m always open, even if it’s about the same old things.”",
     "“Right, that,” Sable nods at your words as if he was expecting them.",
     "Rather than turning to face you he just continues looking outward, “I don’t think I’ll be doing that anymore, sorry.”",
+    "“If you ever want to come back and talk I’m always open, even if it’s about the same old things.”",
     "You can’t really change his opinion or force him to do anything."
     };
 
