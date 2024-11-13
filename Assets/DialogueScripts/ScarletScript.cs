@@ -6,6 +6,10 @@ public class ScarletScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
+    public KeyCode fourKey = KeyCode.Alpha4;
     public VennaScript vennaScript; 
     public SableScript sableScript;
 
@@ -53,7 +57,7 @@ public class ScarletScript : MonoBehaviour
     "Was this all just a game?"
     };
 
-private string[] playerChoice = new string[]
+private string[] playerChoices = new string[]
 {
     "“Hi, what do you have over there?”",
     "“Could you tell me about why that rodent is crying?”",
@@ -77,7 +81,6 @@ private string[] playerChoice = new string[]
 private bool first = true;
 private int index = 0;
 public float textSpeed = 0.05f;
-
 public bool hasCheese = false;
 
     // Start is called before the first frame update
@@ -87,13 +90,11 @@ public bool hasCheese = false;
         if (vennaObject != null)
         {
             vennaScript = vennaObject.GetComponent<VennaScript>();
-            //READS SUCCESSFULLY YAYYYY
         }
         GameObject sableObject = GameObject.Find("Sable");
         if (sableObject != null)
         {
             sableScript = sableObject.GetComponent<SableScript>();
-            //READS SUCCESSFULLY YAYYYY
         }
     }
 
@@ -112,13 +113,171 @@ public bool hasCheese = false;
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    if (index == 4)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2] + "\n" + playerChoices[3];
+                    } else if (index == 8)
+                    {
+                        if (vennaScript.cheeseHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4]
+                            + "\n" + playerChoices[5];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4];
+                        }
+                    } else if (index == 33)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[15]
+                        + "\n" + playerChoices[16];
+                    } else if (index == 39)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                        sableScript.exisentialismPoints += 1;
+                    } else if (index == 14)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[6]
+                        + "\n" + playerChoices[7] + "\n" + playerChoices[8];
+                    } else if (index == 26)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[11]
+                        + "\n" + playerChoices[12];
+                    } else if (index == 18)
+                    {
+                        ScarletEnding();
+                    } else if (index == 21)
+                    {
+                        if (vennaScript.cheeseHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[9]
+                            + "\n" + playerChoices[5];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[9];
+                        }
+                    } else if (index == 24)
+                    {
+                        if (vennaScript.cheeseHint == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[10]
+                            + "\n" + playerChoices[5];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[10];
+                        }
+                    } else if (index == 28)
+                    {
+                        hasCheese = true;
+                        EndDialogue();
+                    } else if (index == 31)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[13]
+                        + "\n" + playerChoices[14];
+                    } else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else 
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 4)
+                    {
+                        NextLine();
+                    } else if (index == 8)
+                    {
+                        EndDialogue();
+                    } else if (index == 33)
+                    {
+                        index = 4;
+                        NextLine();
+                    } else if (index == 39)
+                    {
+                        index = 4;
+                        NextLine();
+                    } else if (index == 14)
+                    {
+                        NextLine();
+                    } else if (index == 26)
+                    {
+                        NextLine();
+                    } else if (index == 21)
+                    {
+                        EndDialogue();
+                    } else if (index == 24)
+                    {
+                        EndDialogue();
+                    } else if (index == 31)
+                    {
+                        index = 26;
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(twoKey))
+                {
+                    if (index == 4)
+                    {
+                        index = 31;
+                        NextLine();
+                    } else if (index == 8 && vennaScript.cheeseHint == true)
+                    {
+                        index = 24;
+                        NextLine();
+                    } else if (index == 33)
+                    {
+                        //Walk Away
+                        EndDialogue();
+                    } else if (index == 39)
+                    {
+                        index = 31;
+                        NextLine();
+                    } else if (index == 14)
+                    {
+                        index = 18; 
+                        NextLine();
+                    } else if (index == 26)
+                    {
+                        index = 28;
+                        NextLine();
+                    } else if (index == 21 && vennaScript.cheeseHint == true)
+                    {
+                        index = 24;
+                        NextLine();
+                    } else if (index == 24 && vennaScript.cheeseHint == true)
+                    {
+                        NextLine();
+                    } else if (index == 31)
+                    {
+                        EndDialogue();
+                    }
+                } else if(Input.GetKeyDown(threeKey))
+                {
+                    if (index == 4)
+                    {
+                        EndDialogue();
+                    } else if (index == 39)
+                    {
+                        EndDialogue();
+                    } else if (index == 14)
+                    {
+                        index = 21;
+                        NextLine();
+                    } 
+                } else if (Input.GetKeyDown(fourKey))
+                {
+                    if (index == 4)
+                    {
+                        index = 33;
+                        NextLine();
+                    }
+                }
             }
         }
     }
@@ -166,9 +325,26 @@ public bool hasCheese = false;
         if (collision.CompareTag("Player"))
         {
             inRange = false;
+            //this is an intentional first = true
             first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false); 
      }
+    }
+
+    private void EndDialogue()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+    }
+
+    private void ScarletEnding()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Three:" + "\n" + "A Long Term Relationship (for spiders)" 
+        + "\n" + "On day one you had your one day anniversary, on day two you went on a date, on day three you two got engaged, on day four you got married." +
+        "On day five you decided to have kids with Scarlet, and on day five you were eaten alive. You lived a good life though, nothing wrong with that.";
     }
 }
