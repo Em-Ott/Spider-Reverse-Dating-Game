@@ -152,7 +152,7 @@ public class VennaScript : MonoBehaviour
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    if (index == 3)
+                    if (index == 2)
                     {
                         DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
                         + "\n" + playerChoices[1] + "\n" + playerChoices[2] + "\n" + playerChoices[3];
@@ -171,6 +171,10 @@ public class VennaScript : MonoBehaviour
                     {
                         EndDialogue();
                         futureInteractions[1] = true;
+                    } else if (index == 40)
+                    {
+                        EndDialogue();
+                        futureInteractions[0] = true;
                     } else if (index == 13)
                     {
                         cheeseHint = true;
@@ -236,7 +240,21 @@ public class VennaScript : MonoBehaviour
                     {
                         EndDialogue();
                         first = true;
-                    } else 
+                    } else if (index == 50)
+                    {
+                        if (sableScript.talkedToSable == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[14]
+                            + "\n" + playerChoices[15];
+                        } else 
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[14];
+                        }
+                    } else if (index == 46)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[11]
+                        + "\n" + playerChoices[12] + "\n" + playerChoices[13];
+                    } else
                     {
                         NextLine();
                     }
@@ -246,6 +264,107 @@ public class VennaScript : MonoBehaviour
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else 
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 2)
+                    {
+                        NextLine();
+                    } else if (index == 8)
+                    {
+                        index = 8;
+                        NextLine();
+                    } else if (index == 26)
+                    {
+                        index = 8;
+                        NextLine();
+                    } else if (index == 14)
+                    {
+                        index = 16;
+                        NextLine();
+                    } else if (index == 39)
+                    {
+                        index = 27;
+                        NextLine();
+                    } else if (index == 27)
+                    {
+                        NextLine();
+                    } else if (index == 55)
+                    {
+                        index = 8;
+                        NextLine();
+                    } else if (index == 50)
+                    {  
+                        NextLine();
+                    } else if (index == 46)
+                    {
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(twoKey))
+                {
+                    if (index == 2)
+                    {
+                        index = 5;
+                        NextLine();
+                    } else if (index == 8)
+                    {
+                        index = 39;
+                        NextLine();
+                    } else if (index == 26)
+                    {
+                        choiceTwo = true;
+                        index = 14;
+                        NextLine();
+                    } else if (index == 14)
+                    {
+                        EndDialogue();
+                        askForVenna = true;
+                    } else if (index == 39)
+                    {
+                        index = 29;
+                        NextLine();
+                    } else if (index == 27)
+                    {
+                        index = 29;
+                        NextLine();
+                    } else if (index == 55)
+                    {
+                        index = 55;
+                        NextLine();
+                    } else if (index == 50 && sableScript.talkedToSable == true)
+                    {
+                        index = 51;
+                        NextLine();
+                    } else if (index == 46)
+                    {
+                        index = 8;
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(threeKey))
+                {
+                    if (index == 2)
+                    {
+                        index = 24;
+                        NextLine();
+                    } else if (index == 27)
+                    {
+                        index = 33;
+                        NextLine();
+                    } else if (index == 46)
+                    {
+                        index = 48;
+                        futureInteractions[0] = true;
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(fourKey))
+                {
+                    if (index == 2)
+                    {
+                        index = 40;
+                        NextLine();
+                    }
+                }
             }
         }
     }
