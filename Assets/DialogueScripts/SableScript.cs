@@ -6,6 +6,9 @@ public class SableScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
     public VennaScript vennaScript; 
     public int exisentialismPoints = 0;
 
@@ -66,6 +69,7 @@ public class SableScript : MonoBehaviour
     private bool first = true;
     private int index = 0;
     public float textSpeed = 0.05f;
+    public bool talkedToSable = false;
 
 
     // Start is called before the first frame update
@@ -94,13 +98,119 @@ public class SableScript : MonoBehaviour
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    if (index == 2)
+                    {
+                        if (vennaScript.askForVenna == true)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                            + "\n" + playerChoices[1] + "\n" + playerChoices[2];
+                        } else
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                            + "\n" + playerChoices[1];
+                        }
+                    } else if (index == 4)
+                    {
+                        endDialogue();
+                    }else if (index == 9)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[3]
+                        + "\n" + playerChoices[4];
+                    } else if (index == 36)
+                    {
+                        talkedToSable = true;
+                        endDialogue();
+                    } else if (index == 11)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[5]
+                        + "\n" + playerChoices[6];
+                    } else if (index == 32)
+                    {
+                        endDialogue();
+                    } else if (index == 16)
+                    {
+                        if (exisentialismPoints >= 6)
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[7]
+                            + "\n" + playerChoices[8] + "\n" + playerChoices[9];
+                        } else
+                        {
+                            DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[7]
+                            + "\n" + playerChoices[8];
+                        }
+                    } else if (index == 13)
+                    {
+                        index = 15;
+                        NextLine();
+                    } else if (index == 20)
+                    {
+                        exisentialismPoints += 1;
+                        endDialogue();
+                    } else if (index == 21)
+                    {
+                        endDialogue();
+                    } else if (index == 28)
+                    {
+                        SelfAwareEnding();
+                    } else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
                     DialogueManager.Instance.dialogue.dialogueText.text = initialDialogue[index];
                 }
                 //DialogueManager.Instance.dialogue.dialogueText.text 
+            } else 
+            {
+                if(Input.GetKeyDown(oneKey))
+                {
+                    if (index == 2)
+                    {
+                        NextLine();
+                    } else if (index == 9)
+                    {
+                        NextLine();
+                    } else if (index == 11)
+                    {
+                        NextLine();
+                    } else if (index == 16)
+                    {
+                        index = 16;
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(twoKey))
+                {
+                    if (index == 2)
+                    {
+                        index = 4;
+                        NextLine();
+                    } else if (index == 9)
+                    {  
+                        index = 28;
+                        NextLine();
+                    } else if (index == 11)
+                    {
+                        index = 13;
+                        NextLine();
+                    } else if (index == 16)
+                    {
+                        index = 20;
+                        NextLine();
+                    }
+                } else if(Input.GetKeyDown(threeKey))
+                {
+                    if (index == 2 && vennaScript.askForVenna == true)
+                    {
+                        index = 32;
+                        NextLine();
+                    } else if (index == 16 && exisentialismPoints >= 6)
+                    {
+                        index = 21;
+                        NextLine();
+                    }
+                }
             }
         }
     }
@@ -151,6 +261,23 @@ public class SableScript : MonoBehaviour
             first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
+            //setting index to 0 is intentional here don't remove
+            index = 0;
      }
+    }
+
+    private void SelfAwareEnding()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Nine:" + "\n" + "Self Aware" 
+        + "\n" + "Even self aware video game characters aren't actually self aware. \n Thanks for Playing!";
+    }
+
+    private void endDialogue()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
     }
 }

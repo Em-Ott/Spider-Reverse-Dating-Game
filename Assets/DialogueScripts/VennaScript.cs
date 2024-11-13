@@ -6,6 +6,10 @@ public class VennaScript : MonoBehaviour
 {
     private bool inRange;
     public KeyCode interactKey = KeyCode.E;
+    public KeyCode oneKey = KeyCode.Alpha1;
+    public KeyCode twoKey = KeyCode.Alpha2;
+    public KeyCode threeKey = KeyCode.Alpha3;
+    public KeyCode fourKey = KeyCode.Alpha4;
     public bool cheeseHint; 
     public bool sableDialogue;
     public SableScript sableScript;
@@ -96,6 +100,10 @@ public class VennaScript : MonoBehaviour
 
     private int index = 0;
     private bool first = true;
+    public bool askForVenna = false;
+    private bool[] futureInteractions = new bool[] {false, false};
+
+    private bool choiceTwo = false;
 
 
     // Start is called before the first frame update
@@ -118,16 +126,120 @@ public class VennaScript : MonoBehaviour
         {
             if(Input.GetKeyDown(interactKey))
             {
-                if (first == true)
+                if (first == true && askForVenna == false)
                 {
                     StartDialog();
                     first = false;
                     DialogueManager.Instance.characterImage.SetActive(true);
                     DialogueManager.Instance.characterNameText.nameText.text = "Venna"; 
+                } else if (futureInteractions[0] == true)
+                {
+                    index = 45;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Venna"; 
+                    futureInteractions[0] = false;
+                } else if (futureInteractions[1] == true)
+                {
+                    VennaKills();
+                } else if (askForVenna == true && first == true)
+                {
+                    index = 50;
+                    StartDialog();
+                    DialogueManager.Instance.characterImage.SetActive(true);
+                    DialogueManager.Instance.characterNameText.nameText.text = "Venna"; 
+                    first = false;
                 }
                 if (DialogueManager.Instance.dialogue.dialogueText.text == initialDialogue[index])
                 {
-                    NextLine();
+                    if (index == 3)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[0]
+                        + "\n" + playerChoices[1] + "\n" + playerChoices[2] + "\n" + playerChoices[3];
+                    } else if (index == 5)
+                    {
+                        VennaRomance();
+                    } else if (index == 8)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4]
+                        + "\n" + playerChoices[5];
+                    } else if (index == 26)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4]
+                        + "\n" + playerChoices[5];
+                    } else if (index == 44)
+                    {
+                        EndDialogue();
+                        futureInteractions[1] = true;
+                    } else if (index == 13)
+                    {
+                        cheeseHint = true;
+                        if (askForVenna == true)
+                        {
+                            EndDialogue();
+                            first = true;
+                        } else if (askForVenna == false && choiceTwo == false)
+                        {
+                            NextLine();
+                        } else if (askForVenna == false && choiceTwo == true)
+                        {
+                            index = 26;
+                            NextLine();
+                        } 
+                    } else if (index == 16)
+                    {
+                        index = 13;
+                        NextLine();
+                    } else if (index == 24)
+                    {
+                        EndDialogue();
+                        askForVenna = true;
+                        first = true;
+                        sableScript.exisentialismPoints += 1;
+                    } else if (index == 7)
+                    {
+                        EndDialogue();
+                        askForVenna = true;
+                        first = true;
+                    } else if (index == 27)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[8]
+                        + "\n" + playerChoices[9] + "\n" + playerChoices[10];
+                    } else if (index == 29)
+                    {
+                        futureInteractions[0] = true;
+                        EndDialogue();
+                    } else if (index == 33)
+                    {
+                        futureInteractions[1] = true;
+                        EndDialogue();
+                    } else if (index == 39)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[8]
+                        + "\n" + playerChoices[9];
+                    } else if (index == 48)
+                    {
+                        VennaRomance();
+                    } else if (index == 49)
+                    {
+                        futureInteractions[0] = true;
+                        EndDialogue();
+                    } else if (index == 51)
+                    {
+                        askForVenna = true;
+                        EndDialogue();
+                    } else if (index == 55)
+                    {
+                        DialogueManager.Instance.dialogue.dialogueText.text = playerChoices[4]
+                        + "\n" + playerChoices[16];
+                    } else if (index == 56)
+                    {
+                        EndDialogue();
+                        first = true;
+                    } else 
+                    {
+                        NextLine();
+                    }
                 } else 
                 {
                     StopAllCoroutines();
@@ -181,9 +293,32 @@ public class VennaScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             inRange = false;
-            first = true;
             DialogueManager.Instance.image.SetActive(false);
             DialogueManager.Instance.characterImage.SetActive(false);
      }
+    }
+
+    private void VennaKills()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Three:" + "\n" + "DEATH" 
+        + "\n" + "Romance is dead and so are you.";
+    }
+
+    private void VennaRomance()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
+        DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
+        DialogueManager.Instance.endingScript.endingText.text = "Ending Two:" + "\n" + "DEATH" 
+        + "\n" + "Romance isn't dead but you are.";
+    } 
+
+    private void EndDialogue()
+    {
+        DialogueManager.Instance.image.SetActive(false);
+        DialogueManager.Instance.characterImage.SetActive(false); 
     }
 }
