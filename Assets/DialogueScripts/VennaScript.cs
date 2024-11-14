@@ -200,7 +200,7 @@ public class VennaScript : MonoBehaviour
                         askForVenna = true;
                         first = true;
                         sableScript.exisentialismPoints += 1;
-                    } else if (index == 7)
+                    } else if (index == 14)
                     {
                         EndDialogue();
                         askForVenna = true;
@@ -231,6 +231,7 @@ public class VennaScript : MonoBehaviour
                     } else if (index == 51)
                     {
                         askForVenna = true;
+                        first = true;
                         EndDialogue();
                     } else if (index == 55)
                     {

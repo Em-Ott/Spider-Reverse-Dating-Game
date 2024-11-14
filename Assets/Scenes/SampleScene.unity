@@ -8617,9 +8617,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactKey: 101
+  oneKey: 49
+  twoKey: 50
+  threeKey: 51
+  fourKey: 52
   vennaScript: {fileID: 2013739818}
   sableScript: {fileID: 0}
-  textSpeed: 0
+  textSpeed: 0.05
   hasCheese: 0
 --- !u!61 &2143886370
 BoxCollider2D:

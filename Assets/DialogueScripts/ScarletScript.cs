@@ -194,7 +194,7 @@ public bool hasCheese = false;
                         NextLine();
                     } else if (index == 8)
                     {
-                        EndDialogue();
+                        NextLine();
                     } else if (index == 33)
                     {
                         index = 4;

@@ -127,8 +127,9 @@ public class RodentText : MonoBehaviour
                         //of an issue so I'm not going to worry about it for now
                         DialogueManager.Instance.image.SetActive(false);
                         DialogueManager.Instance.characterImage.SetActive(false); 
-                    }else if (index == 14)
+                    }else if (index == 13)
                     {
+                        NextLine();
                         CheeseEnding();
                     } else{
                         //Continues reading to the next line if a choice isn't being made
@@ -271,6 +272,7 @@ public class RodentText : MonoBehaviour
         DialogueManager.Instance.characterImage.SetActive(false); 
         DialogueManager.Instance.endingScript.endingScreen.SetActive(true);
         DialogueManager.Instance.endingScript.endingText.text = "Ending Seven:" + "\n" + "Cheese" 
-        + "\n" + "Top 3 Cheeses 2024:" + "\n 1. Mozzarella \n 2. Sriracha Gouda \n 3. Munster";
+        + "\n" + "Top 3 Cheeses 2024:" + "\n 1. Mozzarella \n 2. Sriracha Gouda \n 3. Munster" 
+        + "\n Congratulations! You won and lived for like another month! Yay spiders!";
     }
 }
